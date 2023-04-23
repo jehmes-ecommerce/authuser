@@ -1,0 +1,20 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: authuser-ms
+  datasource:
+    url: jdbc:postgresql://localhost:5433/ecommerce
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: update
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        show_sql: true
+  output:
+    ansi:
+      enabled: always
