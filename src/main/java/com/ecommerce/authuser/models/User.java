@@ -2,13 +2,11 @@ package com.ecommerce.authuser.models;
 
 import jakarta.persistence.*;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "TB_USERS")
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID userId;
