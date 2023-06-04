@@ -5,6 +5,7 @@ import com.ecommerce.authuser.models.User;
 import com.ecommerce.authuser.publishers.UserEventPublisher;
 import com.ecommerce.authuser.repositories.UserRepository;
 import com.ecommerce.authuser.services.interfaces.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,8 +20,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User save(User newUser) {
-        userEventPublisher.publishUserEvent(newUser.convertToUserEventDto(), ActionType.CREATE);
-        return userRepository.save(newUser);
+        var user = userRepository.save(newUser);
+        userEventPublisher.publishUserEvent(user.convertToUserEventDto(), ActionType.CREATE);
+        return user;
     }
 }

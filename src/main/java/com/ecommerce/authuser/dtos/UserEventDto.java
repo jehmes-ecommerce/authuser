@@ -11,7 +11,6 @@ public class UserEventDto {
     private UUID userId;
     private String username;
     private String email;
-    private String password;
     private String cpf;
     private ActionType actionType;
 
