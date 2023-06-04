@@ -21,7 +21,7 @@ public class AuthenticationController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<User> registerUser(@RequestBody UserDto userDto) {
         var newUser = new User();
         BeanUtils.copyProperties(userDto, newUser);

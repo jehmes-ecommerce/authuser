@@ -1,9 +1,19 @@
 package com.ecommerce.authuser.models;
 
+import com.ecommerce.authuser.dtos.UserDto;
+import com.ecommerce.authuser.dtos.UserEventDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.util.UUID;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "TB_USERS")
 public class User {
@@ -14,34 +24,15 @@ public class User {
     private String username;
     @Column(nullable = false, unique = true, length = 50)
     private String email;
-    @Column(nullable = false, length = 255)
+    @JsonIgnore
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false, length = 11)
+    private String cpf;
 
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public UserEventDto convertToUserEventDto() {
+        var userEventDto = new UserEventDto();
+        BeanUtils.copyProperties(this, userEventDto);
+        return userEventDto;
     }
 }
