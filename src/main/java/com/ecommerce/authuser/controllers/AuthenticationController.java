@@ -29,6 +29,6 @@ public class AuthenticationController {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         var newUser = new User();
         BeanUtils.copyProperties(userDto, newUser);
-        return ResponseEntity.status(HttpStatus.OK).body(userService.save(newUser));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(newUser));
     }
 }
