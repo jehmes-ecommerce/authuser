@@ -1,7 +1,7 @@
 package com.ecommerce.authuser.models;
 
-import com.ecommerce.authuser.dtos.UserDto;
 import com.ecommerce.authuser.dtos.UserEventDto;
+import com.ecommerce.authuser.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -29,6 +29,9 @@ public class User {
     private String password;
     @Column(nullable = false, length = 11)
     private String cpf;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
     public UserEventDto convertToUserEventDto() {
         var userEventDto = new UserEventDto();

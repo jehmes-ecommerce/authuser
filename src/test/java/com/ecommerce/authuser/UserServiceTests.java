@@ -1,5 +1,6 @@
 package com.ecommerce.authuser;
 
+import com.ecommerce.authuser.exceptions.UserException;
 import com.ecommerce.authuser.models.User;
 import com.ecommerce.authuser.publishers.UserEventPublisher;
 import com.ecommerce.authuser.repositories.UserRepository;
@@ -46,7 +47,7 @@ class UserServiceTests {
     }
 
     @Test
-    void should_save_valid_user() {
+    void should_save_valid_user() throws UserException {
         when(userRepository.save(any())).thenReturn(user);
         var savedUser = userService.save(user);
 
@@ -54,4 +55,15 @@ class UserServiceTests {
         verify(userRepository).save(any());
         verify(userEventPublisher, atLeast(1)).publishUserEvent(Mockito.any(), Mockito.any());
     }
+
+//    @Test
+//    void should_throws_exception_usernameAlreadyTaken() throws UserException {
+//        when(userRepository.save(any())).thenReturn(user);
+//        var savedUser = userService.save(user);
+//
+//        assertEquals(savedUser, user);
+//        verify(userRepository).save(any());
+//        verify(userEventPublisher, atLeast(1)).publishUserEvent(Mockito.any(), Mockito.any());
+//    }
+
 }

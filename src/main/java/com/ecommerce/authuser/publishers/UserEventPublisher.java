@@ -2,6 +2,7 @@ package com.ecommerce.authuser.publishers;
 
 import com.ecommerce.authuser.dtos.UserEventDto;
 import com.ecommerce.authuser.enums.ActionType;
+import com.ecommerce.authuser.enums.UserType;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -19,7 +20,8 @@ public class UserEventPublisher {
     }
 
     public void publishUserEvent(UserEventDto userEventDto, ActionType actionType) {
-        userEventDto.setActionType(actionType);
+        userEventDto.setActionType(actionType.toString());
+        userEventDto.setUserType(UserType.USER.toString());
         rabbitTemplate.convertAndSend(userEventExchange, "", userEventDto);
     }
 }

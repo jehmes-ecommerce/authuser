@@ -1,6 +1,8 @@
 package com.ecommerce.authuser.controllers;
 
 import com.ecommerce.authuser.dtos.UserDto;
+import com.ecommerce.authuser.enums.UserType;
+import com.ecommerce.authuser.exceptions.UserException;
 import com.ecommerce.authuser.models.User;
 import com.ecommerce.authuser.services.interfaces.UserService;
 import org.springframework.beans.BeanUtils;
@@ -25,10 +27,20 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> registerUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<User> registerUser(@RequestBody UserDto userDto) throws UserException {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         var newUser = new User();
         BeanUtils.copyProperties(userDto, newUser);
+        newUser.setUserType(UserType.USER);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(newUser));
+    }
+
+    @PostMapping("/signup/adm/usr")
+    public ResponseEntity<User> registerAdmUser(@RequestBody UserDto userDto) throws UserException {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        var newUser = new User();
+        BeanUtils.copyProperties(userDto, newUser);
+        newUser.setUserType(UserType.ADMIN);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(newUser));
     }
 }

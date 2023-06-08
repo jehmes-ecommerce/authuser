@@ -12,6 +12,7 @@ public class UserEventDto {
     private String username;
     private String email;
     private String cpf;
-    private ActionType actionType;
+    private String actionType;
+    private String userType;
 
 }
