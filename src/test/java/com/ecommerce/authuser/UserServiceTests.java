@@ -1,10 +1,13 @@
 package com.ecommerce.authuser;
 
+import com.ecommerce.authuser.enums.ActionType;
+import com.ecommerce.authuser.enums.UserExceptionMessage;
 import com.ecommerce.authuser.exceptions.UserException;
 import com.ecommerce.authuser.models.User;
 import com.ecommerce.authuser.publishers.UserEventPublisher;
 import com.ecommerce.authuser.repositories.UserRepository;
 import com.ecommerce.authuser.services.interfaces.UserService;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -56,14 +60,16 @@ class UserServiceTests {
         verify(userEventPublisher, atLeast(1)).publishUserEvent(Mockito.any(), Mockito.any());
     }
 
-//    @Test
-//    void should_throws_exception_usernameAlreadyTaken() throws UserException {
-//        when(userRepository.save(any())).thenReturn(user);
-//        var savedUser = userService.save(user);
-//
-//        assertEquals(savedUser, user);
-//        verify(userRepository).save(any());
-//        verify(userEventPublisher, atLeast(1)).publishUserEvent(Mockito.any(), Mockito.any());
-//    }
+    @Test
+    void should_throws_exception_usernameAlreadyTaken()  {
+        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
+        when(userRepository.save(any())).thenReturn(user);
+        try {
+            userService.save(user);
+            Assert.fail("should throw exception");
+        } catch (UserException e) {
+            assertEquals(e.getMessage(), UserExceptionMessage.USERNAME_ALREADY_TAKEN.getMessage());
+        }
+    }
 
 }
